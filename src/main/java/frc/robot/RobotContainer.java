@@ -21,9 +21,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrainSubsystem m_exampleSubsystem = new DriveTrainSubsystem();
+  public final static DriveTrainSubsystem m_exampleSubsystem = new DriveTrainSubsystem();
 
   private final DriveTrainCommand m_autoCommand = new DriveTrainCommand(m_exampleSubsystem);
+
+  // controller imports
+  public static XboxController driverController = new XboxController(0);
+  public static XboxController overrideController = new XboxController(1);
+
+  // controller bindings
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class RobotMap {
     // speed modifiers
     public static double speedMod = 0.5;
@@ -13,6 +15,8 @@ public class RobotMap {
     public static final boolean driveDebug = false;
     // drive train deadzone
     public static double deadzone = 0.15;
+    // control mode
+    public static ControlMode controlMode = ControlMode.PercentOutput;
 
     /// Motor Ports (CAN BUS) ///
     // drive train
