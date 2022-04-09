@@ -5,8 +5,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import frc.robot.commands.ConveyorCommand;
+//import frc.robot.commands.DriveTrainCommand;
+//import frc.robot.commands.IntakeCommand;
+//import frc.robot.commands.ShooterHigh;
+//import frc.robot.commands.ShooterCommand;
+//import frc.robot.subsystems.ConveyorSubsystem;
+//import frc.robot.subsystems.DriveTrainSubsystem;
+//import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.DigitalOutput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,9 +30,24 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  public Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  // setup autonomous
+
+  // test autonomous
+  private static final String kDefaultAuto = "test Auto";
+  // actual auto, from the fender
+  private static final String kCustomAuto = "Fender Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   Command autonomousCommand;
+  // set autonomous variables
+  double autoTop = 1;
+  double autoBottom = -1;
+  // auto start time
+  // private double startTime;
+  // subsystem imports
+  // private ShooterSubsystem shooterAuto = RobotContainer.m_shooterSubsystem;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -33,6 +60,9 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_chooser.setDefaultOption("Test Auto", kDefaultAuto);
+    m_chooser.addOption("Fender Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -67,23 +97,36 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
   }
 
-  /**
+  /*
    * This autonomous runs the autonomous command selected by your
    * {@link RobotContainer} class.
    */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    try (DigitalOutput Output = new DigitalOutput(0)) {
+      Output.set(false);
+    }
+    // change this line below to the desired autonomous
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    m_autonomousCommand.schedule();
+    m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto Selected " + m_autoSelected);
+
+    // set auto start time
+    // startTime = Timer.getFPGATimestamp();
+    // set run the autonomous code when autonomous is enabled
+    if (m_autoSelected == kDefaultAuto) {
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
+      // RobotContainer.m_shooterSubsystem.setMotors(-1, 1);
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
@@ -100,7 +143,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    // System.out.println("running");
     CommandScheduler.getInstance().run();
+
   }
 
   @Override

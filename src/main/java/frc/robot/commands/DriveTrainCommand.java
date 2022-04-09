@@ -14,14 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveTrainCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final DriveTrainSubsystem driveTrainSubsystem;
-  // create an override variable
-  private boolean overrideMod;
-  private double speedModifier;
-  private boolean fastCheck;
-  private boolean slowCheck;
-  // import controllers
-  private static XboxController driver = RobotContainer.driverController;
-  private static XboxController override = RobotContainer.overrideController;
 
   /**
    * Creates a new ExampleCommand.
@@ -29,11 +21,25 @@ public class DriveTrainCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public DriveTrainCommand(DriveTrainSubsystem subsystem) {
+    // System.out.println("Drive Train Command init");
     driveTrainSubsystem = subsystem;
-    System.out.println("command enabled");
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(driveTrainSubsystem);
+
   }
+
+  // create a new controller for the driver
+  private static XboxController driver = RobotContainer.driverController;
+  private static XboxController override = RobotContainer.OverrideController;
+  // speed values
+  public double forwardSpeedLeft, forwardSpeedRight;
+  // public boolean slowModeToggle;
+  // public boolean slowmode;
+  public boolean slowModeToggle = false;
+  public boolean fastModeToggle = false;
+  public double speedModifier = RobotMap.speedMod;
+  // override variable
+  boolean forceStop = false;
 
   // Called when the command is initially scheduled.
   @Override
@@ -43,39 +49,43 @@ public class DriveTrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // get controller inputs
-    overrideMod = override.getAButton();
-    double leftDrive = driver.getLeftY();
-    double rightDrive = override.getRightY();
-    fastCheck = override.getRightBumper();
-    slowCheck = override.getLeftBumper();
-    // determine speed
+    // get values from controller
+    forwardSpeedLeft = driver.getLeftY();
+    forwardSpeedRight = driver.getRightY();
+    // slowmode = driver.getRightBumper();
+    fastModeToggle = override.getRightBumper();
+    slowModeToggle = override.getLeftBumper();
+    forceStop = override.getAButton();
 
-    if (Math.abs(leftDrive) < RobotMap.deadzone) {
-      leftDrive = 0;
-    }
-    if (Math.abs(rightDrive) < RobotMap.deadzone) {
-      rightDrive = 0;
-    }
-    if (fastCheck == true && slowCheck == true) {
+    // bumper check for slowmode
+    if (fastModeToggle && slowModeToggle == true) {
       speedModifier = RobotMap.speedMod;
-    } else if (fastCheck == true) {
+    } else if (fastModeToggle == true) {
       speedModifier = RobotMap.fastMod;
-    } else if (slowCheck == true) {
-      speedModifier = RobotMap.slowMod;
+    } else if (slowModeToggle == true) {
+      speedModifier = RobotMap.slowmod;
     } else {
       speedModifier = RobotMap.speedMod;
     }
-
-    if (overrideMod == true) {
-      RobotContainer.m_exampleSubsystem.setMotors(0, 0);
-    } else {
-      RobotContainer.m_exampleSubsystem.setMotors(
-          -leftDrive * speedModifier,
-          rightDrive * speedModifier);
+    // deadzone check
+    if (Math.abs(forwardSpeedLeft) < RobotMap.deadzone) {
+      forwardSpeedLeft = 0;
     }
-    System.out.println(leftDrive + " " + rightDrive + " " + overrideMod);
+    if (Math.abs(forwardSpeedRight) < RobotMap.deadzone) {
+      forwardSpeedRight = 0;
+    }
+    // set up the motors
+    if (forceStop == false) {
+      driveTrainSubsystem.setMotors(
+          -forwardSpeedLeft * speedModifier,
+          forwardSpeedRight * speedModifier);
+    } else {
+      driveTrainSubsystem.setMotors(0, 0);
+    }
   }
+
+  // System.out.println("Left: " + forwardSpeedLeft + " Right: " +
+  // forwardSpeedRight);
 
   // Called once the command ends or is interrupted.
   @Override
@@ -85,6 +95,6 @@ public class DriveTrainCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return forceStop;
   }
 }

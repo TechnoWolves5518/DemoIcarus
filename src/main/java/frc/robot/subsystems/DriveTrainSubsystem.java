@@ -4,36 +4,37 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class DriveTrainSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
   // define motors
+  // left side
   TalonSRX leftMotorLeader;
   TalonSRX leftMotorFollower;
+  // right side
   TalonSRX rightMotorLeader;
   TalonSRX rightMotorFollower;
 
   public DriveTrainSubsystem() {
-    System.out.println("subsystem enabled");
-    // left side motors
-    leftMotorLeader = new TalonSRX(RobotMap.leftMotorLeader);
+    // System.out.println("drive train subsystem init");
+    // define left side
     leftMotorFollower = new TalonSRX(RobotMap.leftMotorFollower);
-    // right side motors
-    rightMotorFollower = new TalonSRX(RobotMap.leftMotorFollower);
-    rightMotorLeader = new TalonSRX(RobotMap.leftMotorLeader);
+    leftMotorLeader = new TalonSRX(RobotMap.leftMotorLeader);
+    // define right side
+    rightMotorFollower = new TalonSRX(RobotMap.rightMotorFollower);
+    rightMotorLeader = new TalonSRX(RobotMap.rightMotorLeader);
   }
 
   public void setMotors(double left, double right) {
-    // left motors
-    leftMotorLeader.set(RobotMap.controlMode, left);
+    // set the motors
     leftMotorFollower.set(RobotMap.controlMode, left);
-    // right motors
+    leftMotorLeader.set(RobotMap.controlMode, left);
+
     rightMotorFollower.set(RobotMap.controlMode, right);
     rightMotorLeader.set(RobotMap.controlMode, right);
-    System.out.println("subsystem running");
+    // System.out.println("Left: " + left + " Right: " + right);
   }
 
   @Override
