@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 
 public class DriveForward extends CommandBase {
   /** Creates a new DriveForward. */
-  XboxController driver = RobotContainer.driverController;
+  XboxController driver = RobotContainer.OverrideController;
 
   double speedModifier;
 
@@ -28,21 +28,26 @@ public class DriveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // bumper check for slowmode
-    boolean fastModeToggle = driver.getRightBumper();
-    boolean slowModeToggle = driver.getLeftBumper();
-    if (fastModeToggle && slowModeToggle == true) {
-      speedModifier = RobotMap.speedMod;
-    } else if (fastModeToggle == true) {
-      speedModifier = RobotMap.fastMod;
-    } else if (slowModeToggle == true) {
-      speedModifier = RobotMap.slowmod;
+    boolean forceStop = RobotContainer.OverrideController.getAButton();
+    if (forceStop == false) {
+      // bumper check for slowmode
+      boolean fastModeToggle = driver.getRightBumper();
+      boolean slowModeToggle = driver.getLeftBumper();
+      if (fastModeToggle && slowModeToggle == true) {
+        speedModifier = RobotMap.speedMod;
+      } else if (fastModeToggle == true) {
+        speedModifier = RobotMap.fastMod;
+      } else if (slowModeToggle == true) {
+        speedModifier = RobotMap.slowmod;
+      } else {
+        speedModifier = RobotMap.speedMod;
+      }
+      RobotContainer.m_exampleSubsystem.setMotors(
+          1 * speedModifier,
+          -1 * speedModifier);
     } else {
-      speedModifier = RobotMap.speedMod;
+      RobotContainer.m_exampleSubsystem.setMotors(0, 0);
     }
-    RobotContainer.m_exampleSubsystem.setMotors(
-        1 * speedModifier,
-        -1 * speedModifier);
   }
 
   // Called once the command ends or is interrupted.

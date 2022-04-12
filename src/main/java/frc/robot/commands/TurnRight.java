@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 
 public class TurnRight extends CommandBase {
   /** Creates a new TurnRight. */
-  XboxController driver = RobotContainer.driverController;
+  XboxController driver = RobotContainer.OverrideController;
   double speedModifier;
 
   public TurnRight() {
@@ -27,23 +27,27 @@ public class TurnRight extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean forceStop = RobotContainer.OverrideController.getAButton();
     // set the motors to turn right
-    // bumper check for slowmode
-    boolean fastModeToggle = driver.getLeftBumper();
-    boolean slowModeToggle = driver.getRightBumper();
-    if (fastModeToggle && slowModeToggle == true) {
-      speedModifier = RobotMap.speedMod;
-    } else if (fastModeToggle == true) {
-      speedModifier = RobotMap.fastMod;
-    } else if (slowModeToggle == true) {
-      speedModifier = RobotMap.slowmod;
+    if (forceStop == false) { // bumper check for slowmode
+      boolean fastModeToggle = driver.getRightBumper();
+      boolean slowModeToggle = driver.getLeftBumper();
+      if (fastModeToggle && slowModeToggle == true) {
+        speedModifier = RobotMap.speedMod;
+      } else if (fastModeToggle == true) {
+        speedModifier = RobotMap.fastMod;
+      } else if (slowModeToggle == true) {
+        speedModifier = RobotMap.slowmod;
+      } else {
+        speedModifier = RobotMap.speedMod;
+      }
+      RobotContainer.m_exampleSubsystem.setMotors(
+          -1 * speedModifier,
+          -1 * speedModifier);
+      // check if code has run long enough, if it has, force stop the command
     } else {
-      speedModifier = RobotMap.speedMod;
+      RobotContainer.m_exampleSubsystem.setMotors(0, 0);
     }
-    RobotContainer.m_exampleSubsystem.setMotors(
-        -1 * speedModifier,
-        -1 * speedModifier);
-    // check if code has run long enough, if it has, force stop the command
   }
 
   // Called once the command ends or is interrupted.

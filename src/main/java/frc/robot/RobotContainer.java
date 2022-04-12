@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ConveyorOut;
 //import frc.robot.commands.ClimberDown;
 //import frc.robot.commands.ClimberUp;
 //import frc.robot.commands.AutoHighShoot;
@@ -75,6 +76,7 @@ public class RobotContainer {
 
   // Constants.startButton);
   // button bindings for special functions controller
+  JoystickButton overrideYButton = new JoystickButton(OverrideController, Constants.yButton);
   // JoystickButton specialyButton = new JoystickButton(specialController,
   // Constants.yButton);
   // JoystickButton specialxButton = new JoystickButton(specialController,
@@ -110,6 +112,7 @@ public class RobotContainer {
     driverUpPOV.whileHeld(new DriveForward());
     driverDownPOV.whileHeld(new DriveBackward());
     // special controller binds
+    overrideYButton.whileHeld(new ConveyorOut());
     // specialyButton.whileHeld(new ConveyorIn());
     // specialxButton.whileHeld(new ConveyorOut());
     // specialUpPOV.whileHeld(new ClimberUp());
