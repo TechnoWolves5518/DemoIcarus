@@ -11,7 +11,6 @@ import frc.robot.RobotMap;
 //import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterHigh extends CommandBase {
-  double port = RobotMap.topPort;
 
   /** Creates a new ShooterHigh. */
   public ShooterHigh() {
@@ -27,7 +26,12 @@ public class ShooterHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double port = RobotContainer.OverrideController.getLeftX();
     boolean forceStop = RobotContainer.OverrideController.getAButton();
+    if (port >= 0.7) {
+      port = 0.7;
+    }
+    System.out.println(port);
     if (forceStop == false) {
       // run shooter at full when driver controller has a "Y" input
       RobotContainer.m_shooterSubsystem.setMotors(-1 * port, 1 * port);
