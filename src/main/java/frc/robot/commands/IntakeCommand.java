@@ -22,7 +22,7 @@ public class IntakeCommand extends CommandBase {
     }
 
     // create a new controller for the special functions
-    private static XboxController specialFunctions = RobotContainer.OverrideController;
+    private static XboxController specialFunctions = RobotContainer.driverController;
     // check for whether or not intake is active
     public boolean intakeStatus, outakeStatus;
     public boolean intakeControl, outakeControl;

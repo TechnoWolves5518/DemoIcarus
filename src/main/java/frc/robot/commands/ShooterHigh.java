@@ -28,9 +28,11 @@ public class ShooterHigh extends CommandBase {
   public void execute() {
     double port = RobotContainer.OverrideController.getLeftX();
     boolean forceStop = RobotContainer.OverrideController.getAButton();
-    if (port >= 0.7) {
-      port = 0.7;
+
+    if (port >= 0.4) {
+      port = 0.4;
     }
+
     System.out.println(port);
     if (forceStop == false) {
       // run shooter at full when driver controller has a "Y" input
