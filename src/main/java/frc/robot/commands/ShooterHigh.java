@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -29,10 +30,12 @@ public class ShooterHigh extends CommandBase {
     double port = RobotContainer.OverrideController.getLeftX();
     boolean forceStop = RobotContainer.OverrideController.getAButton();
 
-    if (port >= 0.4) {
-      port = 0.4;
-    }
-
+    /*
+     * if (port >= 0.3) {
+     * port = 0.4;
+     * }
+     */
+    port = 0.4;
     System.out.println(port);
     if (forceStop == false) {
       // run shooter at full when driver controller has a "Y" input

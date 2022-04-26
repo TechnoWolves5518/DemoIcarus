@@ -30,8 +30,8 @@ public class TurnRight extends CommandBase {
     boolean forceStop = RobotContainer.OverrideController.getAButton();
     // set the motors to turn right
     if (forceStop == false) { // bumper check for slowmode
-      boolean fastModeToggle = driver.getRightBumper();
-      boolean slowModeToggle = driver.getLeftBumper();
+      boolean fastModeToggle = driver.getLeftBumper();
+      boolean slowModeToggle = driver.getRightBumper();
       if (fastModeToggle && slowModeToggle == true) {
         speedModifier = RobotMap.speedMod;
       } else if (fastModeToggle == true) {

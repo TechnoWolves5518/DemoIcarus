@@ -53,8 +53,8 @@ public class DriveTrainCommand extends CommandBase {
     forwardSpeedLeft = driver.getLeftY();
     forwardSpeedRight = driver.getRightY();
     // slowmode = driver.getRightBumper();
-    fastModeToggle = override.getRightBumper();
-    slowModeToggle = override.getLeftBumper();
+    fastModeToggle = override.getLeftBumper();
+    slowModeToggle = override.getRightBumper();
     forceStop = override.getAButton();
 
     // bumper check for slowmode

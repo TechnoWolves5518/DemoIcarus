@@ -33,8 +33,8 @@ public class IntakeCommand extends CommandBase {
     @Override
     public void execute() {
         // obtain button imputs
-        intakeStatus = specialFunctions.getAButton();
-        outakeStatus = specialFunctions.getBButton();
+        // intakeStatus = specialFunctions.getAButton();
+        // outakeStatus = specialFunctions.getAButton();
         intakeControl = specialFunctions.getRightBumper();
         outakeControl = specialFunctions.getLeftBumper();
         /*

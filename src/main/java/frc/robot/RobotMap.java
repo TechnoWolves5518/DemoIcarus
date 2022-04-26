@@ -9,9 +9,9 @@ public class RobotMap {
     public static double speedMod = 0.5;
     public static boolean driveSlowMod = false;
     public static boolean driveFastMod = false;
-    public static double fastMod = 0.7;
-    public static double slowmod = 0.4;
-    public static double intakeMod = 0.5;
+    public static double fastMod = 0.5;
+    public static double slowmod = 0.3;
+    public static double intakeMod = 0.4;
     public static double conveyorMod = 1;
     public static double topPort = 0.5;
     public static double bottomPort = 0.2;
