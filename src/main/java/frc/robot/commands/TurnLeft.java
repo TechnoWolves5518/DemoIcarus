@@ -28,7 +28,7 @@ public class TurnLeft extends CommandBase {
   @Override
   public void execute() {
     boolean forceStop = RobotContainer.OverrideController.getAButton();
-    if (forceStop == false) {
+    if (forceStop == true) {
       // bumper check for slowmode
       boolean fastModeToggle = driver.getLeftBumper();
       boolean slowModeToggle = driver.getRightBumper();

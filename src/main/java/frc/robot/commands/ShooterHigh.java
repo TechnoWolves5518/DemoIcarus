@@ -4,11 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.RobotMap;
+
 //import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterHigh extends CommandBase {
@@ -37,7 +36,7 @@ public class ShooterHigh extends CommandBase {
      */
     port = 0.4;
     System.out.println(port);
-    if (forceStop == false) {
+    if (forceStop == true) {
       // run shooter at full when driver controller has a "Y" input
       RobotContainer.m_shooterSubsystem.setMotors(-1 * port, 1 * port);
       RobotContainer.m_conveyorSubsystem.setMotors(1);

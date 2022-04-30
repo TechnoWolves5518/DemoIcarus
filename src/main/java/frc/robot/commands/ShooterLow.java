@@ -28,7 +28,7 @@ public class ShooterLow extends CommandBase {
   @Override
   public void execute() {
     boolean forceStop = RobotContainer.OverrideController.getAButton();
-    if (forceStop == false) {
+    if (forceStop == true) {
       // run shooter at lower power while X is pressed on the driver controller
       RobotContainer.m_shooterSubsystem.setMotors(-1 * port, 1 * port);
       RobotContainer.m_conveyorSubsystem.setMotors(1);
